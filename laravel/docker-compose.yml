@@ -4,9 +4,9 @@ networks:
   laravel:
 
 services:
-  mysql:
+  lara-mysql:
     image: mysql:5.7
-    container_name: mysql
+    container_name: lara-mysql
     restart: unless-stopped
     ports:
       - "4306:3306"
@@ -26,12 +26,12 @@ services:
       args:
         uid: ${UID}
         gid: ${GID}
+    container_name: lara-php
     volumes:
       - "./htdocs:/var/www/html"
     environment:
       - APACHE_RUN_USER=#${UID}
       - APACHE_RUN_GROUP=#${UID}
-    container_name: php
     ports:
       - "9000:80"
     networks:
