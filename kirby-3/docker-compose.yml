@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - 8081:80
+    volumes:
+      - ./htdocs:/var/www/html/kirby-3
+      - ./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - kirby-3
+
+  php:
+    build:
+      context: ./build/php
+      dockerfile: Dockerfile
+      args:
+        uid: ${UID}
+        gid: ${GID}
+    environment:
+      APP_ENV: dev 
+      APP_DEBUG: 1
+    ports:
+      - 9001:9000
+    volumes:
+      - ./htdocs:/var/www/html/kirby-3
+    restart: on-failure
+    networks:
+      - kirby-3
+
+networks:
+  kirby-3:
+    name: kirby-3-driver
