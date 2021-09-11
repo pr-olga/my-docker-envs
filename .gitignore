@@ -1,3 +1,4 @@
 htdocs
+var
 mysql
 .env
